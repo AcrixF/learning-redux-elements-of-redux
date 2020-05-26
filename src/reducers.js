@@ -1,4 +1,5 @@
 import { CREATE_POST, EDIT_POST, SET_FILTER} from "./actionTypes";
+import { combineReducers } from "redux";
 
 export function postsReducers(state = [], action) {
 
@@ -8,14 +9,13 @@ export function postsReducers(state = [], action) {
             return [...state, post];
         }
         case EDIT_POST: {
-            const { type, id, ...newPost } = actio  n;
+            const { type, id, ...newPost } = action;
             return state.map((oldPost, index) => action.id === index ? {...oldPost, ...newPost}: oldPost);
         }
         default:
             return state;
 
     }
-
 };
 
 export function filterReducer(state = 'all', action) {
@@ -26,4 +26,11 @@ export function filterReducer(state = 'all', action) {
         default:
             return state;
     }
-}
+};
+
+const appReducer = combineReducers({
+    posts: postsReducers,
+    filter: filterReducer
+});
+
+export default appReducer;
